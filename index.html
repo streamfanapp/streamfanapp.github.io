@@ -4,12 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>StreamFan</title>
-<meta name="description" content="휴대폰 하나로 YouTube·Twitch·치지직·SOOP에 동시에 방송하는 앱">
+<meta name="description" content="휴대폰 하나로 YouTube·Twitch·치지직·SOOP에 동시에 방송하는 앱 · Multistream from your phone to YouTube, Twitch, CHZZK and SOOP">
 <style>
-  :root { --bg: #0E0A1E; --text: #F4F1FF; --muted: #9C95C2; --pink: #FF3D71; }
+  :root { --bg: #0E0A1E; --card: #17132C; --text: #F4F1FF; --muted: #9C95C2; --pink: #FF3D71; --line: #2B2552; }
   * { box-sizing: border-box; }
-  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
-    background: var(--bg); color: var(--text); font-family: Pretendard, "Segoe UI", "Malgun Gothic", system-ui, sans-serif; padding: 24px 16px; }
+  body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: var(--bg); color: var(--text); padding: 24px 16px;
+    font-family: Pretendard, "Segoe UI", "Malgun Gothic", "Hiragino Sans", "PingFang SC", "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif; }
+  nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 40px; }
+  nav button { background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 999px;
+    padding: 6px 12px; font: inherit; font-size: 14px; cursor: pointer; }
+  nav button[aria-pressed="true"] { background: var(--card); color: var(--text); border-color: var(--muted); }
   main { max-width: 560px; text-align: center; }
   svg { width: 120px; height: 120px; }
   h1 { font-size: 40px; margin: 16px 0 8px; letter-spacing: -1px; }
@@ -17,11 +22,19 @@
   p { color: var(--muted); font-size: 17px; line-height: 1.7; margin: 0 0 28px; }
   a.btn { display: inline-block; padding: 12px 22px; border-radius: 12px; background: var(--pink); color: #fff; text-decoration: none; font-weight: 700; }
   footer { margin-top: 40px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--muted); }
 </style>
 </head>
 <body>
+<nav aria-label="Language">
+  <button type="button" data-lang="ko">한국어</button>
+  <button type="button" data-lang="en">English</button>
+  <button type="button" data-lang="es">Español</button>
+  <button type="button" data-lang="ja">日本語</button>
+  <button type="button" data-lang="zh">中文</button>
+</nav>
 <main>
-  <svg viewBox="0 0 108 108" role="img" aria-label="StreamFan 로고">
+  <svg viewBox="0 0 108 108" role="img" aria-label="StreamFan logo">
     <rect width="108" height="108" rx="24" fill="#17132C"/>
     <g fill="none" stroke-width="3.6" stroke-linecap="round">
       <path d="M36,54 Q55.6,54 75.2,34.8" stroke="#00D6FF"/>
@@ -36,9 +49,40 @@
     <circle cx="36" cy="54" r="7.2" fill="#FF3D71"/>
   </svg>
   <h1>Stream<span>Fan</span></h1>
-  <p>휴대폰 하나로 YouTube · Twitch · 치지직 · SOOP에 동시에 방송하세요.<br>여러 플랫폼 채팅도 한 화면에서 봅니다.</p>
-  <a class="btn" href="https://play.google.com/store/apps/details?id=com.streamfan.app">Google Play에서 받기</a>
-  <footer>© 2026 StreamFan</footer>
+  <p id="tagline">휴대폰 하나로 YouTube · Twitch · 치지직 · SOOP에 동시에 방송하세요.<br>여러 플랫폼 채팅도 한 화면에서 봅니다.</p>
+  <a class="btn" id="play" href="https://play.google.com/store/apps/details?id=com.streamfan.app">Google Play에서 받기</a>
+  <footer>© 2026 StreamFan · <a id="privacy" href="privacy.html#ko">개인정보처리방침</a></footer>
 </main>
+<script>
+  const T = {
+    ko: { tag: "휴대폰 하나로 YouTube · Twitch · 치지직 · SOOP에 동시에 방송하세요.<br>여러 플랫폼 채팅도 한 화면에서 봅니다.",
+          play: "Google Play에서 받기", privacy: "개인정보처리방침", hl: "ko" },
+    en: { tag: "Go live on YouTube, Twitch, CHZZK and SOOP at once — right from your phone.<br>See every platform's chat on one screen.",
+          play: "Get it on Google Play", privacy: "Privacy Policy", hl: "en" },
+    es: { tag: "Transmite a la vez en YouTube, Twitch, CHZZK y SOOP desde tu teléfono.<br>Mira el chat de todas las plataformas en una sola pantalla.",
+          play: "Disponible en Google Play", privacy: "Política de privacidad", hl: "es" },
+    ja: { tag: "スマホひとつでYouTube・Twitch・CHZZK・SOOPに同時配信。<br>各プラットフォームのチャットもひとつの画面で見られます。",
+          play: "Google Play で手に入れよう", privacy: "プライバシーポリシー", hl: "ja" },
+    zh: { tag: "只用一部手机，同时在 YouTube、Twitch、CHZZK、SOOP 直播。<br>所有平台的聊天也能在同一个画面查看。",
+          play: "在 Google Play 下载", privacy: "隐私政策", hl: "zh-CN" },
+  };
+  function setLang(code) {
+    const t = T[code] || T.en;
+    document.documentElement.lang = t.hl;
+    document.getElementById("tagline").innerHTML = t.tag;
+    document.getElementById("play").textContent = t.play;
+    document.getElementById("play").href = "https://play.google.com/store/apps/details?id=com.streamfan.app&hl=" + t.hl;
+    const pv = document.getElementById("privacy");
+    pv.textContent = t.privacy;
+    pv.href = "privacy.html#" + code;
+    document.querySelectorAll("nav button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === code)));
+    try { localStorage.setItem("lang", code); } catch (e) {}
+  }
+  document.querySelectorAll("nav button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+  let saved = null;
+  try { saved = localStorage.getItem("lang"); } catch (e) {}
+  const nav = (navigator.language || "en").slice(0, 2).toLowerCase();
+  setLang(T[saved] ? saved : (T[nav] ? nav : "en"));
+</script>
 </body>
 </html>
