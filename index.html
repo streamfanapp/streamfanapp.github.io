@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StreamFan</title>
+<meta name="description" content="휴대폰 하나로 YouTube·Twitch·치지직·SOOP에 동시에 방송하는 앱">
+<style>
+  :root { --bg: #0E0A1E; --text: #F4F1FF; --muted: #9C95C2; --pink: #FF3D71; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: var(--bg); color: var(--text); font-family: Pretendard, "Segoe UI", "Malgun Gothic", system-ui, sans-serif; padding: 24px 16px; }
+  main { max-width: 560px; text-align: center; }
+  svg { width: 120px; height: 120px; }
+  h1 { font-size: 40px; margin: 16px 0 8px; letter-spacing: -1px; }
+  h1 span { color: var(--pink); }
+  p { color: var(--muted); font-size: 17px; line-height: 1.7; margin: 0 0 28px; }
+  a.btn { display: inline-block; padding: 12px 22px; border-radius: 12px; background: var(--pink); color: #fff; text-decoration: none; font-weight: 700; }
+  footer { margin-top: 40px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <svg viewBox="0 0 108 108" role="img" aria-label="StreamFan 로고">
+    <rect width="108" height="108" rx="24" fill="#17132C"/>
+    <g fill="none" stroke-width="3.6" stroke-linecap="round">
+      <path d="M36,54 Q55.6,54 75.2,34.8" stroke="#00D6FF"/>
+      <path d="M36,54 L78.4,54" stroke="#7C4DFF"/>
+      <path d="M36,54 Q55.6,54 75.2,73.2" stroke="#FF3D71"/>
+    </g>
+    <circle cx="75.2" cy="34.8" r="5.8" fill="#00D6FF"/>
+    <circle cx="78.4" cy="54" r="5.8" fill="#7C4DFF"/>
+    <circle cx="75.2" cy="73.2" r="5.8" fill="#FF3D71"/>
+    <g fill="#17132C"><circle cx="75.2" cy="34.8" r="2.4"/><circle cx="78.4" cy="54" r="2.4"/><circle cx="75.2" cy="73.2" r="2.4"/></g>
+    <circle cx="36" cy="54" r="12" fill="#17132C" stroke="#FFFFFF" stroke-width="2.3"/>
+    <circle cx="36" cy="54" r="7.2" fill="#FF3D71"/>
+  </svg>
+  <h1>Stream<span>Fan</span></h1>
+  <p>휴대폰 하나로 YouTube · Twitch · 치지직 · SOOP에 동시에 방송하세요.<br>여러 플랫폼 채팅도 한 화면에서 봅니다.</p>
+  <a class="btn" href="https://play.google.com/store/apps/details?id=com.streamfan.app">Google Play에서 받기</a>
+  <footer>© 2026 StreamFan</footer>
+</main>
+</body>
+</html>
